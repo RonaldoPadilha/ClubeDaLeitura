@@ -1,6 +1,7 @@
 using ClubeDaLeitura.ConsoleApp.Utilidades;
 
 namespace ClubeDaLeitura.ConsoleApp.ModuloCaixa;
+
 /*
     ● Campos obrigatórios:
         ○ Etiqueta (texto único, máximo 50 caracteres)
@@ -11,7 +12,6 @@ namespace ClubeDaLeitura.ConsoleApp.ModuloCaixa;
     ● Não permitir excluir uma caixa caso tenha revistas vinculadas
     ● Cada caixa define o prazo máximo para empréstimo de suas revistas
 */
-
 public class Caixa
 {
     public int Id { get; private set; }
@@ -19,13 +19,21 @@ public class Caixa
     public string Cor { get; private set; }
     public int DiasDeEmprestimo { get; private set; }
 
-    public Caixa(string etiqueta, string cor, int diasEmprestimo = 7)
+    // Construtor de Classe
+    // Toda instância que for criada PRECISA conter essas informações
+    public Caixa(string etiqueta, string cor, int diasDeEmprestimo)
     {
         Id = GeradorIds.ObterIdCaixa();
 
         Etiqueta = etiqueta;
         Cor = cor;
-        DiasDeEmprestimo = diasEmprestimo;
+        DiasDeEmprestimo = diasDeEmprestimo;
     }
 
+    public void Atualizar(Caixa caixaAtualizada)
+    {
+        Etiqueta = caixaAtualizada.Etiqueta;
+        Cor = caixaAtualizada.Cor;
+        DiasDeEmprestimo = caixaAtualizada.DiasDeEmprestimo;
+    }
 }

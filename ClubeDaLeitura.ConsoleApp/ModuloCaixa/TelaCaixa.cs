@@ -8,17 +8,18 @@ public class TelaCaixa
     {
         this.repositorioCaixa = repositorioCaixa;
     }
+
     public string? ObterOpcaoMenu()
     {
-        Console.WriteLine("------------------------------");
+        Console.WriteLine("---------------------------------");
         Console.WriteLine("Gestão de Caixas");
-        Console.WriteLine("------------------------------");
+        Console.WriteLine("---------------------------------");
         Console.WriteLine("1 - Cadastrar caixa");
         Console.WriteLine("2 - Editar caixa");
         Console.WriteLine("3 - Excluir caixa");
         Console.WriteLine("4 - Visualizar caixas");
-        Console.WriteLine("5 - Sair");
-        Console.WriteLine("------------------------------");
+        Console.WriteLine("S - Sair");
+        Console.WriteLine("---------------------------------");
         Console.Write("> ");
 
         string? opcaoMenuInterno = Console.ReadLine()?.ToUpper();
@@ -28,26 +29,55 @@ public class TelaCaixa
 
     public void Cadastrar()
     {
-        Console.WriteLine("------------------------------");
-        Console.WriteLine("Cadastro de Caixas");
-        Console.WriteLine("------------------------------");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Cadastro de Caixa");
+        Console.WriteLine("---------------------------------");
 
         Caixa novaCaixa = ObterDadosCadastrais();
 
         repositorioCaixa.Cadastrar(novaCaixa);
 
-        Console.WriteLine("------------------------------");
+        Console.WriteLine("---------------------------------");
         Console.WriteLine($"O registro \"{novaCaixa.Etiqueta}\" foi cadastrado com sucesso!");
-        Console.WriteLine("------------------------------");
-        Console.WriteLine("Digite ENTER para continuar...");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar");
         Console.ReadLine();
     }
 
-    public void VisualizarTodos()
+    public void Editar()
     {
-        Console.WriteLine("------------------------------");
-        Console.WriteLine("Visualização de Caixas");
-        Console.WriteLine("------------------------------");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Edição de Caixa");
+        Console.WriteLine("---------------------------------");
+
+        VisualizarTodos(false);
+
+        Console.WriteLine("---------------------------------");
+
+        Console.Write("Digite o ID do registro que deseja editar: ");
+        int idSelecionado = Convert.ToInt32(Console.ReadLine());
+
+        Console.WriteLine("---------------------------------");
+
+        Caixa caixaAtualizada = ObterDadosCadastrais();
+
+        repositorioCaixa.Editar(idSelecionado, caixaAtualizada);
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{caixaAtualizada.Etiqueta}\" foi editado com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar");
+        Console.ReadLine();
+    }
+
+    public void VisualizarTodos(bool deveExibirCabecalho)
+    {
+        if (deveExibirCabecalho)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Visualização de Caixas");
+            Console.WriteLine("---------------------------------");
+        }
 
         Console.WriteLine(
             "{0, -7} | {1, -20} | {2, -10} | {3, -20}",
@@ -65,13 +95,16 @@ public class TelaCaixa
 
             Console.WriteLine(
                 "{0, -7} | {1, -20} | {2, -10} | {3, -20}",
-                0, c.Etiqueta, c.Cor, c.DiasDeEmprestimo
+                c.Id, c.Etiqueta, c.Cor, c.DiasDeEmprestimo
             );
         }
 
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Digite ENTER para continuar");
-        Console.ReadLine();
+        if (deveExibirCabecalho)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar");
+            Console.ReadLine();
+        }
     }
 
     private Caixa ObterDadosCadastrais()
